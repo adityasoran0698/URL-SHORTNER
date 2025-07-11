@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Admin Dashboard - URL Shortener</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        html,
+        body {
+            height: 100%;
+            margin: 0;
+            background: #1e1e2f;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: #cfd8dc;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            padding: 30px 20px;
+            min-height: 100vh;
+        }
+
+        .container {
+            background: #2c2c47;
+            max-width: 1000px;
+            width: 100%;
+            padding: 30px 40px;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+            display: flex;
+            flex-direction: column;
+            gap: 40px;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            max-width: 450px;
+            width: 100%;
+        }
+
+        label {
+            font-weight: 700;
+            font-size: 1.1rem;
+            color: #90caf9;
+        }
+
+        input[type="text"] {
+            padding: 12px 16px;
+            font-size: 1rem;
+            border: 1.5px solid #555a75;
+            border-radius: 8px;
+            background-color: #3a3f6e;
+            color: #e1e6f0;
+            transition: border-color 0.3s ease, background-color 0.3s ease;
+        }
+
+        input[type="text"]::placeholder {
+            color: #a0a8c0;
+        }
+
+        input[type="text"]:focus {
+            outline: none;
+            border-color: #82b1ff;
+            background-color: #4a50a0;
+            box-shadow: 0 0 8px #82b1ff;
+            color: #fff;
+        }
+
+        button {
+            align-self: flex-start;
+            padding: 12px 28px;
+            background: #42a5f5;
+            border: none;
+            border-radius: 8px;
+            color: white;
+            font-weight: 700;
+            font-size: 1rem;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(66, 165, 245, 0.5);
+            transition: background-color 0.3s ease, box-shadow 0.3s ease;
+            user-select: none;
+        }
+
+        button:hover {
+            background-color: #1e88e5;
+            box-shadow: 0 6px 18px rgba(30, 136, 229, 0.7);
+        }
+
+        p {
+            font-weight: 600;
+            font-size: 1.15rem;
+            color: #82b1ff;
+            max-width: 450px;
+            margin: 0 auto;
+            text-align: center;
+            user-select: text;
+        }
+
+        table {
+            width: 100%;
+            max-width: 1000px;
+            border-collapse: separate;
+            border-spacing: 0 10px;
+            font-size: 1rem;
+            background: #2c2c47;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+        }
+
+        thead tr {
+            background: #3f51b5;
+            color: #e3f2fd;
+            font-weight: 700;
+        }
+
+        thead th {
+            padding: 14px 20px;
+            text-align: left;
+            user-select: none;
+        }
+
+        tbody tr {
+            background: #3a3f6e;
+            transition: background-color 0.3s ease;
+            cursor: default;
+            color: #cfd8dc;
+        }
+
+        tbody tr:hover {
+            background-color: #556cd6;
+        }
+
+        tbody td {
+            padding: 14px 20px;
+            border-bottom: none;
+            color: #e1e6f0;
+        }
+
+        tbody td:first-child {
+            font-weight: 600;
+            color: #bbdefb;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <form method="POST" action="/url/newURL">
+            <label>Enter an original URL</label>
+            <input type="text" name="url" placeholder="http://example.com" />
+            <button type="submit">Generate</button>
+        </form>
+
+        <% if (locals.id) { %>
+            <p>URL Generated: http://localhost:8000/url/<%= id %>
+            </p>
+            <% } %>
+
+                <% if (locals.urls && urls.length> 0) { %>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>S.NO</th>
+                                <th>Short URL</th>
+                                <th>Redirect</th>
+                                <th>Clicks</th>
+                                <th>Created By</th>
+                                <th>Email</th>
+                                <th>Role</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <% urls.forEach((url,index)=> { %>
+                                <tr>
+                                    <td>
+                                        <%= index + 1 %>
+                                    </td>
+                                    <td>
+                                        <%= url.shortId %>
+                                    </td>
+                                    <td>
+                                        <%= url.redirectURL %>
+                                    </td>
+                                    <td>
+                                        <%= url.visitHistory ? url.visitHistory.length : 0 %>
+                                    </td>
+                                    <td>
+                                        <%= url.createdByName %>
+                                    </td>
+                                    <td>
+                                        <%= url.createdByEmail %>
+                                    </td>
+                                    <td>
+                                        <%= url.role %>
+                                    </td>
+                                </tr>
+                                <% }) %>
+                        </tbody>
+                    </table>
+                    <% } %>
+    </div>
+</body>
+
+</html>

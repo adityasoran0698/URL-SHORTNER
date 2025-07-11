@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Home Page</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter&display=swap" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html,
+        body {
+            height: 100%;
+            font-family: 'Inter', sans-serif;
+            color: #333;
+            background-color: #f9f9f9;
+            overflow-x: hidden;
+        }
+
+        .container {
+            width: 100%;
+            min-height: 100vh;
+            background-color: white;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .box {
+            /* flex: 1; */
+            display: flex;
+            justify-content: center;
+            /* align-items: center; */
+            padding: 2rem;
+        }
+
+        .urlshortner {
+            width: 100%;
+            max-width: 800px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background: #fff;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .urlshortner h1 {
+            font-size: 2.2rem;
+            margin-bottom: 1.5rem;
+            color: #222;
+        }
+
+        .generated-url {
+            font-weight: 600;
+            font-size: 1.4rem;
+            color: #007bff;
+            text-align: center;
+            margin-bottom: 2rem;
+            word-break: break-word;
+        }
+
+        .generated-url a {
+            color: #007bff;
+            text-decoration: none;
+        }
+
+        .generated-url a:hover {
+            text-decoration: underline;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 1rem;
+            background: white;
+            box-shadow: 1px 1px 10px 2px rgba(0, 0, 0, 0.1);
+            border-radius: 12px;
+            overflow: hidden;
+            margin-top: 2rem;
+        }
+
+        thead tr {
+            background: #007bff;
+            color: white;
+            font-weight: 700;
+        }
+
+        thead th {
+            padding: 14px 20px;
+            text-align: left;
+        }
+
+        tbody tr {
+            background: #fafafa;
+            transition: background-color 0.3s ease;
+        }
+
+        tbody tr:hover {
+            background-color: #e1eaff;
+        }
+
+        tbody td {
+            padding: 14px 20px;
+            color: #555;
+        }
+
+        tbody td:first-child {
+            font-weight: 600;
+        }
+
+        .clicks-cell {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .delete-btn {
+            background: none;
+            border: none;
+            color: red;
+            cursor: pointer;
+            font-size: 20px;
+            margin-left: 20px;
+            transition: color 0.3s ease;
+        }
+
+        .delete-btn:hover {
+            color: darkred;
+        }
+
+        .delete-btn i {
+            vertical-align: middle;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <%- include("./partials/nav.ejs") %>
+
+            <div class="box">
+                <div class="urlshortner">
+
+                    <% if (locals.id) { %>
+                        <div class="generated-url">
+                            URL Generated:
+                            <a href="<%= baseUrl %>/url/<%= id %>">
+                                <%= baseUrl %>/url/<%= id %>
+                            </a>
+
+                        </div>
+                        <% } else if (!locals.urls || urls.length===0) { %>
+                            <h1 style="margin-top: 20px;">No URLs</h1>
+                            <% } else { %>
+
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th>S.NO</th>
+                                            <th>Short URL ID</th>
+                                            <th>Redirect</th>
+                                            <th>Clicks</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <% urls.forEach((url, index)=> { %>
+                                            <tr>
+                                                <td>
+                                                    <%= index + 1 %>
+                                                </td>
+                                                <td>
+                                                    <%= url.shortId %>
+                                                </td>
+                                                <td>
+                                                    <%= url.redirectURL %>
+                                                </td>
+                                                <td class="clicks-cell">
+                                                    <span>
+                                                        <%= url.visitHistory ? url.visitHistory.length : 0 %>
+                                                    </span>
+                                                    <form method="POST" action="/url/deleteURL/<%= url.shortId %>">
+                                                        <button type="submit" class="delete-btn" title="Delete URL">
+                                                            <i class="ri-delete-bin-fill"></i>
+                                                        </button>
+                                                    </form>
+                                                </td>
+                                            </tr>
+                                            <% }) %>
+                                    </tbody>
+                                </table>
+
+                                <% } %>
+
+                </div>
+            </div>
+    </div>
+</body>
+
+</html>
