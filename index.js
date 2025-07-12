@@ -24,7 +24,6 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 
-// Database connection using env variable
 MongodbConnection(MONGO_URL);
 
 app.use("/url", restrictToLoggedinUserOnly, urlRouter);

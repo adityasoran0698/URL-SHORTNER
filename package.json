@@ -17,5 +17,14 @@
   },
   "author": "",
   "license": "ISC",
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/adityasoran0698/URL-SHORTNER.git"
+  },
+  "bugs": {
+    "url": "https://github.com/adityasoran0698/URL-SHORTNER/issues"
+  },
+  "homepage": "https://github.com/adityasoran0698/URL-SHORTNER#readme",
   "description": ""
 }

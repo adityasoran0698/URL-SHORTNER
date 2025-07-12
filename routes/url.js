@@ -4,7 +4,6 @@ const {
   CreateNewURLShortID,
   GetAllURLsData,
   RedirectToOriginalURL,
-  TotalClicks,
   DeleteUrl,
 } = require("../controllers/url.js");
 router.post("/newURL", CreateNewURLShortID);
